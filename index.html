@@ -4,6 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>个人博客 - 目录矩阵</title>
+    <script>
+
+        // 1. 数据源
+        const blogData = {
+            "categories": [
+                {
+                    "name": "汉民族主义",
+                    "id": "cat-backend",
+                    "articles": [
+                        { "title": "什么是汉人", "url": "/汉民族主义/什么是汉人.html", "hot": true },
+                    ]
+                    /*
+                    "children": [
+                        {
+                            "name": "分布式数据库",
+                            "id": "cat-db",
+                            "articles": [
+                                { "title": "PostgreSQL 高可用集群迁移完整实战", "url": "/posts/db/pg-migration.html", "hot": true },
+                                { "title": "Redis 缓存雪崩与一致性哈希避坑指南", "url": "/posts/db/redis-guide.html" }
+                            ]
+                        }
+                    ] */
+                },
+                {
+                    "name": "现代前端与三维可视化",
+                    "id": "cat-frontend",
+                    "articles": [
+                        { "title": "CesiumJS 三维GIS前端开发快速入门", "url": "/posts/fe/cesium-gis.html", "hot": true },
+                        { "title": "WebGL 渲染管线与自定义着色器基础", "url": "/posts/fe/webgl-base.html" }
+                    ]
+                },
+                {
+                    "name": "十九世纪俄国文学文本考据",
+                    "id": "cat-lit",
+                    "articles": [
+                        { "title": "《死屋手记》沙俄戈比购买力完整考据", "url": "/posts/lit/shae-gobi.html", "hot": true },
+                        { "title": "陀思妥耶夫斯基复调小说的空间美学", "url": "/posts/lit/tuo-space.html" }
+                    ]
+                },
+                {
+                    "name": "📋 北方年度气候气温开源数据整理",
+                    "id": "cat-weather",
+                    "articles": [
+                        { "title": "北方年度气候气温开源数据整理明细", "url": "/posts/life/weather-2026.html", "hot": true }
+                    ]
+                }
+            ]
+        };        
+    </script>
     <style>
         /* 基础样式复位 */
         * {
@@ -270,53 +319,6 @@
         <p>© 2026 · 完全开源共享 · Powered by GitHub Pages</p>
     </footer>
     <script>
-        // 1. 数据源
-        const blogData = {
-            "categories": [
-                {
-                    "name": "汉民族主义",
-                    "id": "cat-backend",
-                    "articles": [
-                        { "title": "什么是汉人", "url": "/汉民族主义/什么是汉人.html", "hot": true },
-                    ]
-                    /*
-                    "children": [
-                        {
-                            "name": "分布式数据库",
-                            "id": "cat-db",
-                            "articles": [
-                                { "title": "PostgreSQL 高可用集群迁移完整实战", "url": "/posts/db/pg-migration.html", "hot": true },
-                                { "title": "Redis 缓存雪崩与一致性哈希避坑指南", "url": "/posts/db/redis-guide.html" }
-                            ]
-                        }
-                    ] */
-                },
-                {
-                    "name": "现代前端与三维可视化",
-                    "id": "cat-frontend",
-                    "articles": [
-                        { "title": "CesiumJS 三维GIS前端开发快速入门", "url": "/posts/fe/cesium-gis.html", "hot": true },
-                        { "title": "WebGL 渲染管线与自定义着色器基础", "url": "/posts/fe/webgl-base.html" }
-                    ]
-                },
-                {
-                    "name": "十九世纪俄国文学文本考据",
-                    "id": "cat-lit",
-                    "articles": [
-                        { "title": "《死屋手记》沙俄戈比购买力完整考据", "url": "/posts/lit/shae-gobi.html", "hot": true },
-                        { "title": "陀思妥耶夫斯基复调小说的空间美学", "url": "/posts/lit/tuo-space.html" }
-                    ]
-                },
-                {
-                    "name": "📋 北方年度气候气温开源数据整理",
-                    "id": "cat-weather",
-                    "articles": [
-                        { "title": "北方年度气候气温开源数据整理明细", "url": "/posts/life/weather-2026.html", "hot": true }
-                    ]
-                }
-            ]
-        };
-
         // 渲染调用
         renderBlog(blogData);
 
