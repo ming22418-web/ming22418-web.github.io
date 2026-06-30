@@ -3,113 +3,236 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>欢迎来到我的个人主页</title>
+    <title>个人博客 - 目录矩阵</title>
     <style>
-        :root {
-            --bg-color: #f4f7f6;
-            --text-color: #333333;
-            --accent-color: #2ea44f; /* GitHub 绿 */
-            --card-bg: #ffffff;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-color: #0d1117;
-                --text-color: #c9d1d9;
-                --accent-color: #238636;
-                --card-bg: #161b22;
-            }
+        /* 基础样式复位 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            background-color: #f6f8fa; 
+            color: #24292f;
             line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
         }
 
-        .container {
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s ease;
+        }
+
+        /* ==========================================================================
+           1. 新增：全局介绍头部 (Header)
+           ========================================================================== */
+        .blog-header {
+            max-width: 1200px;
+            margin: 40px auto 0 auto;
+            padding: 0 30px;
+        }
+
+        .header-content {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.01);
+        }
+
+        .header-content h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1f2328;
+            margin-bottom: 12px;
+        }
+
+        .header-content p {
+            font-size: 1rem;
+            color: #57606a;
             max-width: 800px;
-            margin: 0 auto;
-            padding: 40px 20px;
+            line-height: 1.7;
+        }
+
+        /* 页面主体大框架 */
+        .blog-wrapper {
+            max-width: 1200px;
+            margin: 30px auto 60px auto;
+            padding: 0 30px;
+            display: flex;
+            gap: 40px; 
+        }
+
+        /* 区块统一标题 */
+        .block-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1f2328;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #d0d7de;
+        }
+
+        /* ==========================================================================
+           左侧：主要功能块 - 博客内容目录树
+           ========================================================================== */
+        .main-directory {
+            flex: 1; 
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.01);
+        }
+
+        .tree-menu, .tree-menu ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .tree-menu ul {
+            padding-left: 20px;
+            border-left: 1px solid #d0d7de;
+            margin: 4px 0;
+        }
+
+        .tree-node {
+            margin-bottom: 6px;
+        }
+
+        /* 文件夹节点样式 */
+        .tree-folder {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #24292f;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 0;
+            user-select: none;
+        }
+
+        .tree-folder::before {
+            content: "▼";
+            display: inline-block;
+            margin-right: 8px;
+            font-size: 0.7rem;
+            color: #57606a;
+            transition: transform 0.2s ease;
+        }
+
+        /* CSS 树形折叠控制 */
+        .tree-toggle { display: none; }
+        .tree-toggle ~ ul { display: none; }
+        .tree-toggle:checked ~ ul { display: block; }
+        .tree-toggle:checked ~ .tree-folder::before {
+            transform: rotate(-90deg);
+            color: #8c959f;
+        }
+
+        /* 最内层文章叶子节点 */
+        .tree-leaf {
+            padding: 4px 0;
+        }
+
+        .tree-leaf a {
+            color: #0969da; 
+            font-size: 0.95rem;
+            display: inline-flex;
+        }
+
+        .tree-leaf a:hover {
+            text-decoration: underline;
+            color: #1f85ff;
+        }
+
+        /* ==========================================================================
+           右侧：辅助功能块 - 极致紧凑版 推荐阅读
+           ========================================================================== */
+        .hot-sidebar {
+            flex: 0 0 320px; 
+            position: sticky;
+            top: 40px;
+            height: fit-content;
+        }
+
+        .hot-list {
+            list-style: none;
+            background: #ffffff;
+            padding: 16px; /* 缩小外边距 */
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.01);
+        }
+
+        .hot-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 10px 0; /* 压缩每一项的上下间距，使其紧凑 */
+            border-bottom: 1px solid #f6f8fa;
+        }
+
+        .hot-item:last-child {
+            border-bottom: none;
+        }
+
+        /* 紧凑序号样式 */
+        .hot-trend-num {
+            font-size: 1rem;
+            font-weight: 700;
+            font-style: italic;
+            width: 22px; /* 缩减宽度，让文字更靠左对齐 */
+            color: #8c959f; 
+        }
+
+        /* 前三名专属色 */
+        .hot-item:nth-child(1) .hot-trend-num { color: #ff1e1e; } 
+        .hot-item:nth-child(2) .hot-trend-num { color: #ff6a00; } 
+        .hot-item:nth-child(3) .hot-trend-num { color: #ffb900; } 
+
+        .hot-info {
             flex: 1;
         }
 
-        header {
-            text-align: center;
-            padding: 40px 0;
+        .hot-title {
+            font-size: 0.9rem; /* 略微缩小字号增加紧凑感 */
+            font-weight: 500;
+            color: #24292f;
+            line-height: 1.35;
+            margin-bottom: 3px;
+            display: block;
         }
 
-        .profile-img {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 3px solid var(--accent-color);
-            transition: transform 0.3s ease;
+        .hot-item:hover .hot-title {
+            color: #0969da;
         }
 
-        .profile-img:hover {
-            transform: scale(1.05);
+        /* 推荐文章元数据（去掉了时间，纯净的左侧目录层级路径） */
+        .hot-meta {
+            font-size: 0.75rem;
+            color: #8c959f;
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis; /* 路径过长时自动打点展示 */
         }
 
-        h1 {
-            font-size: 2.5rem;
-            margin: 20px 0 10px;
+        /* 响应式适配 */
+        @media (max-width: 900px) {
+            .blog-header, .blog-wrapper {
+                padding: 0 15px;
+                margin: 20px auto;
+            }
+            .blog-wrapper {
+                flex-direction: column;
+                gap: 25px;
+            }
+            .hot-sidebar {
+                flex: none;
+                width: 100%;
+                position: static;
+            }
         }
-
-        .tagline {
-            font-size: 1.2rem;
-            opacity: 0.8;
-        }
-
-        .section {
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            margin-bottom: 30px;
-        }
-
-        h2 {
-            border-bottom: 2px solid var(--accent-color);
-            padding-bottom: 8px;
-            margin-top: 0;
-        }
-
-        .links {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: var(--accent-color);
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: bold;
-            transition: opacity 0.2s;
-        }
-
-        .btn:hover {
-            opacity: 0.9;
-        }
-
-        .btn-secondary {
-            background-color: transparent;
-            color: var(--text-color);
-            border: 1px solid var(--text-color);
-        }
-
         footer {
             text-align: center;
             padding: 20px;
@@ -117,43 +240,161 @@
             opacity: 0.7;
         }
     </style>
+
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <img src="https://github.com/identicons/jason.png" alt="头像" class="profile-img">
-            <h1>你好，我是 [你的名字] 👋</h1>
-            <p class="tagline">专注于 [你的领域/例如：前端开发 / 数据分析 / 终身学习者]</p>
-        </header>
+    <header class="blog-header">
+        <div class="header-content">
+            <h1>欢迎来到我的思维矩阵</h1>
+            <p>这里是我用于沉淀个人技术、归纳文学考据与记录日常数据的极简空间。左侧大列表承载全站完整的树状类目索引，右侧则精选了近期高密度的核心推荐阅读。这里不追踪行为，不产生喧嚣，只专注于文字与逻辑的纯粹交付。</p>
+        </div>
+    </header>
 
-        <section class="section">
-            <h2>关于我 🧑‍💻</h2>
-            <p>这里是一段简短的自我介绍。你可以写写你的兴趣爱好、目前正在研究的技术，或者你建这个网站的目的。</p>
-            <p>用代码改变世界，或者只是纯粹地享受创造的乐趣。</p>
-        </section>
+    <div class="blog-wrapper">
+        
+        <main class="main-directory">
+            <h2 class="block-title">📂 全站文章目录</h2>
+            <ul class="tree-menu" id="directory-tree">
+                </ul>
+        </main>
 
-        <section class="section">
-            <h2>开源项目 🚀</h2>
-            <ul>
-                <li><strong><a href="#" style="color: var(--accent-color);">项目名称 A</a></strong> - 简短的项目描述，这个项目解决了什么问题。</li>
-                <li><strong><a href="#" style="color: var(--accent-color);">项目名称 B</a></strong> - 另一个炫酷的项目介绍。</li>
-            </ul>
-        </section>
+        <aside class="hot-sidebar">
+            <h2 class="block-title">✨ 推荐阅读</h2>
+            <ul class="hot-list" id="recommend-list">
+                </ul>
+        </aside>
 
-        <section class="section" style="background: transparent; box-shadow: none; text-align: center;">
-            <h2>联系我 📬</h2>
-            <div class="links">
-                <a href="#" class="btn">GitHub</a>
-                <a href="#" class="btn btn-secondary">个人博客</a>
-                <a href="mailto:your-email@example.com" class="btn btn-secondary">电子邮箱</a>
-            </div>
-        </section>
     </div>
-
-    <footer>
-        <p>&copy; 2026 [你的名字]. Powered by GitHub Pages.</p>
+    <footer style="text-align: center; padding: 60px 20px 40px 20px; color: #8c959f; font-size: 0.8rem; letter-spacing: 1px;">
+        <p>© 2026 · 完全开源共享 · Powered by GitHub Pages</p>
     </footer>
+    <script>
+        // 1. 数据源
+        const blogData = {
+            "categories": [
+                {
+                    "name": "核心后端与架构演进",
+                    "id": "cat-backend",
+                    "children": [
+                        {
+                            "name": "分布式数据库",
+                            "id": "cat-db",
+                            "articles": [
+                                { "title": "PostgreSQL 高可用集群迁移完整实战", "url": "/posts/db/pg-migration.html", "hot": true },
+                                { "title": "Redis 缓存雪崩与一致性哈希避坑指南", "url": "/posts/db/redis-guide.html" }
+                            ]
+                        },
+                        {
+                            "name": "Java 高并发调优",
+                            "id": "cat-java",
+                            "articles": [
+                                { "title": "JVM 垃圾回收器 ZGC 参数调优实践总结", "url": "/posts/java/zgc-tune.html", "hot": true },
+                                { "title": "深入理解线程池拒绝策略与监控", "url": "/posts/java/threadpool.html" }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "现代前端与三维可视化",
+                    "id": "cat-frontend",
+                    "articles": [
+                        { "title": "CesiumJS 三维GIS前端开发快速入门", "url": "/posts/fe/cesium-gis.html", "hot": true },
+                        { "title": "WebGL 渲染管线与自定义着色器基础", "url": "/posts/fe/webgl-base.html" }
+                    ]
+                },
+                {
+                    "name": "十九世纪俄国文学文本考据",
+                    "id": "cat-lit",
+                    "articles": [
+                        { "title": "《死屋手记》沙俄戈比购买力完整考据", "url": "/posts/lit/shae-gobi.html", "hot": true },
+                        { "title": "陀思妥耶夫斯基复调小说的空间美学", "url": "/posts/lit/tuo-space.html" }
+                    ]
+                },
+                {
+                    "name": "📋 北方年度气候气温开源数据整理",
+                    "id": "cat-weather",
+                    "articles": [
+                        { "title": "北方年度气候气温开源数据整理明细", "url": "/posts/life/weather-2026.html", "hot": true }
+                    ]
+                }
+            ]
+        };
 
+        // 渲染调用
+        renderBlog(blogData);
+
+        function renderBlog(data) {
+            const treeContainer = document.getElementById('directory-tree');
+            const recommendContainer = document.getElementById('recommend-list');
+            let hotArticles = [];
+
+            // 递归渲染目录树，同时智能提取热点文章及其【左侧父级类目路径】
+            function buildTreeHTML(nodes, parentPath = "") {
+                let html = '';
+                nodes.forEach(node => {
+                    html += `<li class="tree-node">`;
+                    
+                    // 动态合成当前的目录树路径（如：核心后端与架构演进 / 分布式数据库）
+                    const currentPath = parentPath ? `${parentPath} / ${node.name}` : node.name;
+
+                    if (node.children && node.children.length > 0) {
+                        html += `<input type="checkbox" id="${node.id}" class="tree-toggle">`;
+                        html += `<label for="${node.id}" class="tree-folder">${node.name}</label>`;
+                        html += `<ul>${buildTreeHTML(node.children, currentPath)}</ul>`;
+                    } 
+                    else if (node.articles && node.articles.length > 0) {
+                        
+                        // 提取 hot: true 并在文章对象中存入它的“上一级目录路径”
+                        node.articles.forEach(a => { 
+                            if(a.hot) {
+                                hotArticles.push({
+                                    title: a.title,
+                                    url: a.url,
+                                    categoryPath: currentPath // 核心：注入目录路径（写到上一层）
+                                });
+                            } 
+                        });
+
+                        // 特殊处理单篇直属文章节点
+                        if(node.name.startsWith("📋")) {
+                            const singleArticle = node.articles[0];
+                            html += `<div class="tree-leaf"><a href="${singleArticle.url}">${node.name}</a></div>`;
+                        } else {
+                            html += `<input type="checkbox" id="${node.id}" class="tree-toggle">`;
+                            html += `<label for="${node.id}" class="tree-folder">${node.name}</label>`;
+                            html += `<ul>`;
+                            node.articles.forEach(article => {
+                                html += `<li class="tree-node tree-leaf"><a href="${article.url}">${article.title}</a></li>`;
+                            });
+                            html += `</ul>`;
+                        }
+                    }
+                    html += `</li>`;
+                });
+                return html;
+            }
+
+            // 1. 渲染左侧目录
+            treeContainer.innerHTML = buildTreeHTML(data.categories);
+
+            // 2. 渲染右侧紧凑推荐阅读
+            let recommendHTML = '';
+            hotArticles.forEach((article, index) => {
+                recommendHTML += `
+                    <li class="hot-item">
+                        <span class="hot-trend-num">${index + 1}</span>
+                        <div class="hot-info">
+                            <a href="${article.url}" class="hot-title">${article.title}</a>
+                            <div class="hot-meta">
+                                <span>${article.categoryPath}</span>
+                            </div>
+                        </div>
+                    </li>
+                `;
+            });
+            recommendContainer.innerHTML = recommendHTML;
+        }
+    </script>
 </body>
 </html>
