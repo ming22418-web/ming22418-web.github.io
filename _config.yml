@@ -1,2 +1,2 @@
 theme: jekyll-theme-minimal
-description: "<style>header { display: none !important; } section { width: 100% !important; max-width: 800px !important; float: none !important; margin: 0 auto !important; } body { font-size: 18px !important; line-height: 1.6 !important; }</style>"
+description: "<style>header, footer { display: none !important; } section { width: 100% !important; max-width: 800px !important; float: none !important; margin: 0 auto !important; } body { font-size: 19px !important; line-height: 1.7 !important; }</style>"
